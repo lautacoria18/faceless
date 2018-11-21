@@ -1,0 +1,88 @@
+import Publicacion.*
+import Amigo.*
+
+
+describe "faceless"{
+	var user1= new Usuario()
+	var user2= new Usuario()
+	var user3= new Usuario()
+	var user4= new Usuario()
+	var user5= new Usuario()
+	var user6= new Usuario()
+	var user7= new Usuario()
+	var user8= new Usuario()
+	
+	var foto1 = new Foto()
+	var texto1 = new Texto()
+	var video1 = new VideoCalidadNormal()
+	var foto2 = new Foto()
+	var foto3 = new Foto()
+	
+ var privadoConListaBlanca = new PrivadoConListaBlanca()
+	
+	fixture {
+		
+		foto1.privacidad(soloAmigos)
+		texto1.privacidad(soloAmigos)
+		video1.privacidad(privadoConListaBlanca)
+		foto1.likes(15)
+		foto2.likes(6)
+		
+		privadoConListaBlanca.agregarALista(user2)
+		privadoConListaBlanca.agregarALista(user3)
+		privadoConListaBlanca.agregarALista(user4)
+		
+		foto1.duenio(user1)
+		texto1.duenio(user1)
+		video1.duenio(user1)	
+		foto1.alto(5)
+		foto1.ancho(4)
+		texto1.caracteres(10)
+		video1.duracion(15)
+		
+		user1.amigos(#{user2,user3,user4,user5,user6,user7,user8})
+		user1.publicaciones(#{foto1, texto1, video1})
+		
+		user2.publicaciones(#{foto1})
+		user3.publicaciones(#{foto2})
+		
+		
+		
+	}
+	
+	
+	
+	test "amigos"{
+		
+		
+		
+		assert.equals(#{user2, user3, user4}, user1.mejoresAmigos())
+	}
+	
+	test"peso total" {
+		
+		assert.equals(39, user1.totalOcupado())
+		
+	}
+	
+	test "mas amistoso"{
+		
+		assert.equals(true, user1.esMasPopularQue(user2))
+	}
+	
+	test "amigo mas popu" {
+		
+		
+		assert.equals(user2, user1.amigoMasPopular())
+	}
+	
+	test "stalkea a"{
+	
+	assert.equals(true, user1.stalkeaA(user2))
+
+	
+	}
+	
+	
+	
+}
